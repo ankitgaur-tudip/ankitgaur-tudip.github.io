@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<textarea rows="40" cols="100">#!/usr/bin/env bash
+    sudo -i
+    echo "Installing apache"
+    apt-get install apache2 -y
+
+    echo "Reconfugiring shared folders and applying symlinks"
+    rm -rf /var/www/html
+    ln -fs /vagrant /var/www/html
+
+    echo "Installing git"
+    apt-get install git -y
+
+    echo "Updating PHP repository"
+    apt-get install python-software-properties build-essential -y
+    add-apt-repository ppa:ondrej/php5 -y
+    apt-get update
+
+
+    echo "Installing PHP"
+
+    apt-get install php5 libapache2-mod-php5 php5-mcrypt -y
+    echo "Installing PHP extensions"
+    apt-get install curl php5-curl php5-gd php5-mcrypt php5-mysql -y
+
+    apt-get install debconf-utils -y
+
+    debconf-set-selections <<< "mysql-server mysql-server/root_password password root"
+
+    debconf-set-selections <<< "mysql-server mysql-server/root_password_again password root"
+
+    echo "Installing MYSQl"
+
+    apt-get install mysql-server -y
+
+    mysqli_install_db
+    service apache2 restart</textarea>
+</body>
+</ht
+ml>
